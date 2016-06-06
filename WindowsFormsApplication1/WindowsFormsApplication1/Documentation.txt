@@ -1,0 +1,57 @@
+﻿Created by David V. Hapeman - June 4, 2016
+
+Task:
+
+Creative Cash Draw Solutions is a client who wants to provide something different for the cashiers who use their system. 
+The function of the application is to tell the cashier how much change is owed, and what denominations should be used. 
+In most cases the app should return the minimum amount of physical change, but the client would like to add a twist. If 
+the "owed" amount is divisible by 3, the app should randomly generate the change 
+denominations (but the math still needs to be right :))
+
+Please write a program which accomplishes the clients goals. The program should:
+
+1. Accept a flat file as input
+		i. Each line will contain the amount owed and the amount paid separated by a comma (for example: 2.13,3.00)
+		ii. Expect that there will be multiple lines
+2. Output the change the cashier should return to the customer
+		i. The return string should look like: 1 dollar,2 quarters,1 nickel, etc ...
+		ii. Each new line in the input file should be a new line in the output file
+
+Approach:
+
+Based on the information provided, there is one part of the process that lends to being open to interpretation.  The 
+requirement of “random” when the amount owed is divisible by 3 can be considered in many ways, 
+for example, random in any or all items or with some structure.
+
+I made the assumption that the process will be done random in that two possibilities occur.
+	1.	The first round of random is to determine which denomination of the change will be broken apart.
+	2.	The second round of random is determine “how much” of that denomination will be changed.
+
+I used Windows forms due to the fact that it is easy to build a result display with minimal formatting 
+needed so as to spend more time on the solution without the need to worry about formatting.
+
+An assumption that was made is that the change denominations will not utilize bills greater than a $100 bill.
+
+Step 1:
+	Get the data file from the user.  The user file is provided in a TextBox.  The UI gives the ability to browse 
+	for a file on the Computer.
+
+Step 2:
+	Once the data file has been defined, the user clicks the Load button which does the following:
+		1.	Parse the file based on the requirements and loads into a DataTable.
+		2.	Perform the Calculation of the Change:
+			a.	First, determine the change of the based on the most effective method ignoring 
+				if the amount owed is divisible by 3 and load to a datatable and in this datatable, flag
+				the record as divisible by three.
+			b.	During the load, should the record be divisible by 3, perform the random recalculation.
+				i.	During Recalculation do the following:
+					1.	Randomly determine which denomination will be altered.
+					2.	Randomly determine how many of that denomination will be altered.
+					3.	Subtract a penny and place into the penny count.
+					4.	Recalculate the most efficient method based on what is left in the denomination.
+		3.	Creation of two functions that will produce the output with two different methods.
+			a.	Method 1: A DataTable output so that the user can use the UI interface to have to 
+						  complete level of information.
+			b.	Method 2: A new class (List) that will provide the specific wording of the requirement.  
+						  From there, the User Interface can do what is needed with the information.
+
